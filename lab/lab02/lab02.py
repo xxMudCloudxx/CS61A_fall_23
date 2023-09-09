@@ -1,4 +1,3 @@
-
 def composer(f, g):
     """Return the composition function which given x, computes f(g(x)).
 
@@ -15,6 +14,7 @@ def composer(f, g):
     108
     """
     return lambda x: f(g(x))
+
 
 def composite_identity(f, g):
     """
@@ -37,12 +37,15 @@ def composite_identity(f, g):
     #     else:
     #         return False
     # return est
-    return lambda x:composer(f,g)(x) == composer(g,f)(x) or False
+    return lambda x: composer(f, g)(x) == composer(g, f)(x) or False
+
+
 def sum_digits(y):
     total = 0
     while y > 0:
         total, y = total + y % 10, y // 10
     return total
+
 
 def is_prime(n):
     if n == 1:
@@ -53,6 +56,7 @@ def is_prime(n):
             return False
         k += 1
     return True
+
 
 def count_cond(condition):
     """Returns a function with one parameter N that counts all the numbers from
@@ -81,14 +85,15 @@ def count_cond(condition):
     """
     "*** YOUR CODE HERE ***"
 
-
     def cut(n):
-        count= 0
-        for i in range(1,n+1):
-            if condition(n,i):
-                count = count+1
+        count = 0
+        for i in range(1, n + 1):
+            if condition(n, i):
+                count = count + 1
         return count
+
     return cut
+
 
 def multiple(a, b):
     """Return the smallest number n that is a multiple of both a and b.
@@ -99,14 +104,16 @@ def multiple(a, b):
     42
     """
     "*** YOUR CODE HERE ***"
-    mul=a*b
+    mul = a * b
     while True:
-        if b%a == 0:
+        if b % a == 0:
             return b
         else:
-            b ,a = b%a,b
+            b, a = b % a, b
         break
-    return int(mul/b)
+    return int(mul / b)
+
+
 def cycle(f1, f2, f3):
     """Returns a function that is itself a higher-order function.
 
@@ -134,27 +141,33 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
-    def judge(n):
+
+    def judge(n):  # 判断进入多少次循环
         def execute(num):
-            total = 0
-            cycle_num, cycle_times = n % 3, n // 3
-            if n != 0:
-                def times_count(num):
+            total = 0  # 积累迭代总值
+            cycle_num, cycle_times = n % 3, n // 3  # 计算循环余数和循环次数
+            if n != 0:  # 若循环0次，直接返回输入值
+                def times_count(num):  # 处理n大于3的情况
                     nonlocal total
                     if cycle_num == 2:
                         total = f2(f1(num))
                     elif cycle_num == 1:
                         total = f1(num)
                     return total
-                if cycle_times == 0:
+
+                if cycle_times == 0:  # 处理n小于3的情况
                     times_count(num)
+
                 else:
-                    for i in range(cycle_times):
-                        num =f3(f2(f1(num)))
-                    total=num+times_count(total)
+                    for i in range(cycle_times):  # 处理n大于3的情况，循环执行函数f1f2f3
+                        num = f3(f2(f1(num)))
+                    total = num + times_count(total)
                     return total
+
                 return total
             else:
                 return num
+
         return execute
+
     return judge
