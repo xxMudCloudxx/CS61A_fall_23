@@ -82,6 +82,14 @@ def count_cond(condition):
     "*** YOUR CODE HERE ***"
 
 
+    def cut(n):
+        count= 0
+        for i in range(1,n+1):
+            if condition(n,i):
+                count = count+1
+        return count
+    return cut
+
 def multiple(a, b):
     """Return the smallest number n that is a multiple of both a and b.
 
@@ -91,9 +99,14 @@ def multiple(a, b):
     42
     """
     "*** YOUR CODE HERE ***"
-
-
-
+    mul=a*b
+    while True:
+        if b%a == 0:
+            return b
+        else:
+            b ,a = b%a,b
+        break
+    return int(mul/b)
 def cycle(f1, f2, f3):
     """Returns a function that is itself a higher-order function.
 
@@ -121,4 +134,27 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
-
+    def judge(n):
+        def execute(num):
+            total = 0
+            cycle_num, cycle_times = n % 3, n // 3
+            if n != 0:
+                def times_count(num):
+                    nonlocal total
+                    if cycle_num == 2:
+                        total = f2(f1(num))
+                    elif cycle_num == 1:
+                        total = f1(num)
+                    return total
+                if cycle_times == 0:
+                    times_count(num)
+                else:
+                    for i in range(cycle_times):
+                        num =f3(f2(f1(num)))
+                    total=num+times_count(total)
+                    return total
+                return total
+            else:
+                return num
+        return execute
+    return judge
