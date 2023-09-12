@@ -1,23 +1,33 @@
+**cd D:\hj\python\CS61A_fall_23\lab\lab02**
 # Control Expressions
-   ## if缩进语句和if调用语句的区别
-        - if缩进语句可以跳过不需要的语句部分
-        - 而if调用语句需要先运行导入的参数后进行调用，若参数错误则语句错误;如-100，sqrt(-100)
+## if缩进语句和if调用语句的区别
+- if缩进语句可以跳过不需要的语句部分
+- 而if调用语句需要先运行导入的参数后进行调用，若参数错误则语句错误;如-100，sqrt(-100)
     
-   ## 短路系统
-        - a and b:
-            到达第一个假值后短路，并返回。若均真，返回b
-        - a or b:
-            在第一真处短路，若均假，返回b
-   ## assert 语句
-        - assert <bloolean语句> ,'error statement'
+## 短路系统
+- a and b:
+    到达第一个假值后短路，并返回。若均真，返回b
+- a or b:
+    在第一真处短路，若均假，返回b
 
-   ## 封装思想，高阶函数
-        control.jpg
-        - 找到算法间的相同思路，用函数进行梗概，导入算法相关形参。减少代码重复次数。
-        - 接受一个函数作为参数的函数
+|运算符|检查是否：|从左到右运算直到|例子|
+|---|--- |------------|---|
+| and|所有值都是True|第一个错误值|False and 1/0 evaluates to False|
+| or|至少有一个是True|第一个正确值|True or 1/0 evaluates to True|
+
+![1](png/%E7%9F%AD%E8%B7%AF_1.png "1")
+![2](png/%E7%9F%AD%E8%B7%AF_2.png "1")
+![3](png/%E7%9F%AD%E8%B7%AF_3.png "1")
+## assert 语句
+- assert <bloolean语句> ,'error statement'
+
+## 封装思想，高阶函数
+![](png/control.jpg)
+- 找到算法间的相同思路，用函数进行梗概，导入算法相关形参。减少代码重复次数。
+- 接受一个函数作为参数的函数
 
 # Environments for nested def
-    - 嵌套函数的父框架为定义或创造该函数的框架
+- 嵌套函数的父框架为定义或创造该函数的框架
 
 # 匿名函数
 
@@ -100,6 +110,21 @@
 - 局部函数的名称不会干扰定义它的函数的外部名称，因为局部函数名称将绑定在定义它的当前局部环境中，而不是全局环境中。
 - 局部函数可以访问封闭函数的环境，因为局部函数体是在扩展了其定义的评估环境的环境中进行评估的。
 
+### 函数的作用域
+    '''
+    def pirate(arggg):
+        print('matey')
+            def plunder(arggg):
+                return arggg
+        return plunder
+    add(pirate(3)(square)(4),1)
+    '''
+ **我们需要注意的是pirate(3)的返回值是plunder()函数，这是因为plunder函数和pirate函数的形参arggg只是名称相同，但是是两个不同的变量，无法等同**
+ ！[马函数](png/house.png)
+ **用def语句时，是先操作一个func()函数再绑定给名字func**
+
+    
+
 ## 函数修饰器
     '''
     >>> def trace(fn):
@@ -123,3 +148,6 @@
     """
 **注意：被修饰的函数会返回修饰函数的return值（函数或数字）**·
 ![演示](png/%E4%BF%AE%E9%A5%B0%E5%99%A8.png)
+
+## 函数的迭代应用
+！[迭代](png/%E8%BF%AD%E4%BB%A3.png)

@@ -30,6 +30,11 @@ def ordered_digits(x):
     """
     "*** YOUR CODE HERE ***"
 
+    while x:
+        last_1, x = x % 10, x // 10,
+        last_2 = x % 10
+        return last_1 >= last_2
+
 
 def get_k_run_starter(n, k):
     """Returns the 0th digit of the kth increasing run within n.
@@ -101,12 +106,29 @@ def make_repeater(func, n):
     5
     """
     "*** YOUR CODE HERE ***"
+    if n == 0:
+        return lambda x: x
+    else:
+        return lambda x: make_repeater(func, n - 1)(func(x))
+
+
+'''
+    g = identity
+    while n > 0:
+        g = composer(func, g)
+        n = n - 1
+    return g
+'''
+
 
 def composer(func1, func2):
     """Returns a function f, such that f(x) = func1(func2(x))."""
+
     def f(x):
         return func1(func2(x))
+
     return f
+
 
 def apply_twice(func):
     """Returns a function that applies func twice.
@@ -117,6 +139,16 @@ def apply_twice(func):
     16
     """
     "*** YOUR CODE HERE ***"
+    def judge(n):
+        result = n
+        while n >0:
+            result = func(result)
+            apply_twice(func)
+            n -=1
+        return result
+    return judge
+
+# return make_repeater(func, 2)
 
 
 def div_by_primes_under(n):
@@ -138,6 +170,7 @@ def div_by_primes_under(n):
         i = ____________________________
     return ____________________________
 
+
 def div_by_primes_under_no_lambda(n):
     """
     >>> div_by_primes_under_no_lambda(10)(11)
@@ -149,16 +182,19 @@ def div_by_primes_under_no_lambda(n):
     >>> div_by_primes_under_no_lambda(5)(1)
     False
     """
+
     def checker(x):
         return False
+
     i = ____________________________
     while ____________________________:
         if not checker(i):
             def outer(____________________________):
                 def inner(____________________________):
                     return ____________________________
+
                 return ____________________________
+
             checker = ____________________________
         i = ____________________________
     return ____________________________
-
