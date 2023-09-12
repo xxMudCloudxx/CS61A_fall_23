@@ -96,37 +96,41 @@ def num_factors(n):
     """Return the number of factors of N, including 1 and N itself."""
     # BEGIN PROBLEM 4
     number_factor=0
-    num = 0
+    num = 1
     while num <= n:
-        if n % num == 0:
-            number_factor += 1
+        if n != 1:
+            if n % num == 0:
+                number_factor += 1
             num +=1
-
+        else:
+            return 1
+    return number_factor
     # END PROBLEM 4
 
+def prime_check(number):
+    while not num_factors(number) == 2:
+        number += 1
+        prime_check(number)
+    return number
 def sus_points(score):
     """Return the new score of a player taking into account the Sus Fuss rule."""
     # BEGIN PROBLEM 4
     judge = num_factors(score)
     if judge == 3 or judge == 4:
-        score += 2
-        return score
+        return prime_check(score)
     else:
         return score
     # END PROBLEM 4
+
+
 
 def sus_update(num_rolls, player_score, opponent_score, dice=six_sided):
     """Return the total score of a player who starts their turn with
     PLAYER_SCORE and then rolls NUM_ROLLS DICE, *including* Sus Fuss.
     """
     # BEGIN PROBLEM 4
-    if num_rolls != 0:
-        player_score += sus_points(roll_dice(num_rolls),dice)
-        opponent_score += sus_points(roll_dice(num_rolls),dice)
-    else:
-        player_score += sus_points(boar_brawl(num_rolls))
-        opponent_score += sus_points(boar_brawl(num_rolls))
-    return player_score,opponent_score
+    score = sus_points(player_score + take_turn(num_rolls, player_score, opponent_score, dice))
+    return score
     # END PROBLEM 4
 
 
@@ -165,7 +169,15 @@ def play(strategy0, strategy1, update,
     """
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    while score0 < goal and score1 < goal:
+        if who == 0:
+            num_rolls = strategy0(score0, score1)
+            score0 = update(num_rolls, score0, score1,dice)
+            who = 1
+        else:
+            num_rolls=strategy1(score1, score0)
+            score1 = update(num_rolls, score1, score0,dice)
+            who = 0
     # END PROBLEM 5
     return score0, score1
 
