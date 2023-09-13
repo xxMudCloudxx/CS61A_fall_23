@@ -259,7 +259,10 @@ def make_averaged(original_function, samples_count=1000):
     3.0
     """
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    def return_function(*args):
+		total_count =      original_function(samples_count,*args)
+		return float(total_count//10)
+	return return_function 
     # END PROBLEM 8
 
 
