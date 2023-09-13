@@ -5,6 +5,7 @@ from ucb import main, trace, interact
 
 GOAL = 100  # The goal of Hog is to score 100 points.
 
+
 ######################
 # Phase 1: Simulator #
 ######################
@@ -21,7 +22,7 @@ def roll_dice(num_rolls, dice=six_sided):
     assert type(num_rolls) == int, 'num_rolls must be an integer.'
     assert num_rolls > 0, 'Must roll at least once.'
     # BEGIN PROBLEM 1
-    dice_result=[]
+    dice_result = []
     total = 0
     while num_rolls > 0:
         dice_result.append(dice())
@@ -48,7 +49,7 @@ def boar_brawl(player_score, opponent_score):
     if two_num_rival == one_num_player:
         return 1
     else:
-        return 3*abs(two_num_rival-one_num_player)
+        return 3 * abs(two_num_rival - one_num_player)
     # END PROBLEM 2
 
 
@@ -67,7 +68,7 @@ def take_turn(num_rolls, player_score, opponent_score, dice=six_sided):
     assert num_rolls <= 10, 'Cannot roll more than 10 dice.'
     # BEGIN PROBLEM 3
     if num_rolls == 0:
-        return boar_brawl(player_score,opponent_score)
+        return boar_brawl(player_score, opponent_score)
     else:
         return roll_dice(num_rolls, dice)
 
@@ -81,6 +82,7 @@ def simple_update(num_rolls, player_score, opponent_score, dice=six_sided):
     score = player_score + take_turn(num_rolls, player_score, opponent_score, dice)
     return score
 
+
 def is_prime(n):
     """Return whether N is prime."""
     if n == 1:
@@ -92,26 +94,30 @@ def is_prime(n):
         k += 1
     return True
 
+
 def num_factors(n):
     """Return the number of factors of N, including 1 and N itself."""
     # BEGIN PROBLEM 4
-    number_factor=0
+    number_factor = 0
     num = 1
     while num <= n:
         if n != 1:
             if n % num == 0:
                 number_factor += 1
-            num +=1
+            num += 1
         else:
             return 1
     return number_factor
     # END PROBLEM 4
+
 
 def prime_check(number):
     while not num_factors(number) == 2:
         number += 1
         prime_check(number)
     return number
+
+
 def sus_points(score):
     """Return the new score of a player taking into account the Sus Fuss rule."""
     # BEGIN PROBLEM 4
@@ -121,7 +127,6 @@ def sus_points(score):
     else:
         return score
     # END PROBLEM 4
-
 
 
 def sus_update(num_rolls, player_score, opponent_score, dice=six_sided):
@@ -172,11 +177,11 @@ def play(strategy0, strategy1, update,
     while score0 < goal and score1 < goal:
         if who == 0:
             num_rolls = strategy0(score0, score1)
-            score0 = update(num_rolls, score0, score1,dice)
+            score0 = update(num_rolls, score0, score1, dice)
             who = 1
         else:
-            num_rolls=strategy1(score1, score0)
-            score1 = update(num_rolls, score1, score0,dice)
+            num_rolls = strategy1(score1, score0)
+            score1 = update(num_rolls, score1, score0, dice)
             who = 0
     # END PROBLEM 5
     return score0, score1
@@ -201,9 +206,11 @@ def always_roll(n):
     3
     """
     assert n >= 0 and n <= 10
+
     # BEGIN PROBLEM 6
     def always_roll_n(score, opponent_score):
         return n
+
     return always_roll_n
     # END PROBLEM 6
 
@@ -258,11 +265,16 @@ def make_averaged(original_function, samples_count=1000):
     >>> averaged_dice(1, dice)  # The avg of 10 4's, 10 2's, 10 5's, and 10 1's3.83
     3.0
     """
+
     # BEGIN PROBLEM 8
     def return_function(*args):
-		total_count =      original_function(samples_count,*args)
-		return float(total_count//10)
-	return return_function 
+        total = 0
+        for i in range(samples_count):
+            result = original_function(*args)
+            total += result
+        return total / samples_count
+
+    return return_function
     # END PROBLEM 8
 
 
@@ -276,10 +288,16 @@ def max_scoring_num_rolls(dice=six_sided, samples_count=1000):
     1
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 9
-
-
+    averaged_dice = make_averaged(roll_dice, samples_count)
+    ls=[]
+    for i in range(1,11):
+        scoring = averaged_dice(i,dice)
+        ls.append(scoring)
+    for j in ls:
+        if ls.count(j) == 2:
+            return min(j)
+        else:
+            return ls.index(max(ls)) + 1
 def winner(strategy0, strategy1):
     """Return 0 if strategy0 wins against strategy1, and 1 otherwise."""
     score0, score1 = play(strategy0, strategy1, sus_update)
@@ -304,7 +322,7 @@ def run_experiments():
     six_sided_max = max_scoring_num_rolls(six_sided)
     print('Max scoring num rolls for six-sided dice:', six_sided_max)
 
-    print('always_roll(6) win rate:', average_win_rate(always_roll(6))) # near 0.5
+    print('always_roll(6) win rate:', average_win_rate(always_roll(6)))  # near 0.5
     print('catch_up win rate:', average_win_rate(catch_up))
     print('always_roll(3) win rate:', average_win_rate(always_roll(3)))
     print('always_roll(8) win rate:', average_win_rate(always_roll(8)))
@@ -313,7 +331,6 @@ def run_experiments():
     print('sus_strategy win rate:', average_win_rate(sus_strategy))
     print('final_strategy win rate:', average_win_rate(final_strategy))
     "*** You may add additional experiments as you wish ***"
-
 
 
 def boar_strategy(score, opponent_score, threshold=11, num_rolls=6):
