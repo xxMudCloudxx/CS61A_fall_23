@@ -46,7 +46,16 @@ def my_reduce(combiner, seq):
     11
     """
     "*** YOUR CODE HERE ***"
-    return combiner(seq)
+    # if len(seq) == 1:
+    #     return seq[0]
+    # else:
+    #     return combiner(seq[0],my_reduce(combiner,seq[1:]))
+    result = seq[0]
+    for item in seq[1:]:
+        result = combiner(result, item)
+    return result
+
+
 def my_map_syntax_check():
     """Check that your two_of_three code consists of nothing but a return statement.
 
@@ -69,7 +78,7 @@ def my_filter_syntax_check():
 
 
 def double_eights(n):
-    """ Returns whether or not n has two digits in row that
+    """ Returns whether n has two digits in row that
     are the number 8. Assume n has at least two digits in it.
 
     >>> double_eights(1288)
@@ -90,11 +99,13 @@ def double_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
-    count = 0
-    for i in ls:
-        if i == 8:
-            count += 1
-    return count >= 2
+    if n ==0:
+        return False
+    elif n %10 == 8 and n//10%10 == 8:
+        return True
+    else:
+        return double_eights(n//10)
+
 
 def merge(lst1, lst2):
     """Merges two sorted lists.
@@ -121,9 +132,18 @@ def merge(lst1, lst2):
     True
     """
     "*** YOUR CODE HERE ***"
-    ls = lst1 + lst2
-    count = 1
-    for i in
+    if not lst1 :
+        return lst2
+    if not lst2:
+        return lst1
+    if lst1[0] <= lst2[0]:
+        return [lst1[0]]+merge(lst1[1:],lst2)
+    else:
+        return [lst2[0]]+merge(lst1,lst2[1:])
+
+
+
+
 def summation(n, term):
     """Return the sum of numbers 1 through n (including n) wíth term applied to each number.
     Implement using recursion!
@@ -143,6 +163,10 @@ def summation(n, term):
     """
     assert n >= 1
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        return term(n)
+    else:
+        return term(n)+summation(n-1,term)
 
 
 def count_palindromes(L):
@@ -152,5 +176,5 @@ def count_palindromes(L):
     >>> count_palindromes(("Acme", "Madam", "Pivot", "Pip"))
     2
     """
-    return ______
+    return len(my_filter(lambda x:x.lower() == x[::-1].lower(),L))
 
