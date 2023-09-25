@@ -223,23 +223,33 @@ def minimum_mewtations(typed, source, limit):
     2
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
-    """
-    assert False, 'Remove this line'
-    if ___________: # Base cases should go here, you may add more base cases as needed.
+    """ 'Remove this line'
+    if len(typed) == 0 or len(source) == 0: # Base cases should go here, you may add more base cases as needed.
         # BEGIN
         "*** YOUR CODE HERE ***"
+        return abs(len(typed)-len(source))
         # END
     # Recursive cases should go below here
-    if ___________: # Feel free to remove or add additional cases
+    if typed == source:
+        return 0
+    elif typed[0] == source[0]: # 如果当前字符相同，跳到下个字符
         # BEGIN
         "*** YOUR CODE HERE ***"
+        return minimum_mewtations(typed[1:],source[1:],limit)
         # END
+    elif limit <= 0:    # 用来检测操作数是否超过limit，若是，返回较大的数
+        return limit+1*10
     else:
-        add = ... # Fill in these lines
-        remove = ...
-        substitute = ...
+        add =source[0]+typed # 若字符不同，添加
+        remove = typed[1:]  # 若字符不同，移除
+        substitute = source[0]+typed[1:] # 若字符不同，替换
         # BEGIN
         "*** YOUR CODE HERE ***"
+        # 递推出所有情况，并返回最小操作数
+        add_cost=1+minimum_mewtations(add, source,limit-1)
+        remove_cost =1+ minimum_mewtations(remove, source, limit - 1)
+        substitute_cost =1+ minimum_mewtations(substitute, source, limit - 1)
+        return min(add_cost,remove_cost,substitute_cost)
         # END
 
 
@@ -281,6 +291,18 @@ def report_progress(typed, source, user_id, upload):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    store = {}
+    count = 0
+    leng_typed, leng_source = len(typed), len(source)
+    for i in range(leng_typed):
+        if typed[i] == source[i]:
+            count += 1
+        else:
+            break
+    store['id'] = user_id
+    store['progress']=count/leng_source
+    upload(store)
+    print(store['progress'])
     # END PROBLEM 8
 
 
@@ -303,6 +325,15 @@ def time_per_word(words, timestamps_per_player):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    time_sub=[]
+    time_store=[]
+    tpp=timestamps_per_player
+    for i in range(len(tpp)):
+        for _ in range(len(tpp[i]) - 1):
+            time_store.append(tpp[i][_ + 1] - tpp[i][_])
+        time_sub.append(time_store)
+        time_store = []
+    return match(words,time_sub)
     # END PROBLEM 9
 
 
@@ -325,6 +356,9 @@ def fastest_words(match):
     word_indices = range(len(get_all_words(match)))    # contains an *index* for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
+    for i in player_indices:
+        for j in word_indices
+    time(match, player_num, word_index)
     # END PROBLEM 10
 
 
