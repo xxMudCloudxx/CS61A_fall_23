@@ -97,13 +97,14 @@ def max_product(s):
 
 
 def max_product_2(s):
-    if len(s) == 0:
+    if s == []:
         return 1
-    elif len(s) == 1:
+    if len(s) == 1:
         return s[0]
     else:
-        return max([s[i] * s[j] for i in range(len(s)) for j in range(i, len(s)) if i != j])
-
+        return max(s[0] * max_product(s[2:]), max_product(s[1:]))
+        # OR
+        #return max(s[0] * max_product(s[2:]), s[1] * max_product(s[3:]))
 
 # Q5
 def flatten(s):
@@ -130,5 +131,24 @@ def flatten(s):
     store=[]
     is_list(s,store)
     return store
+
+def flatten_2(s):
+    lst = []
+    for elem in s:
+        if type(elem) == list:
+            lst += flatten(elem)
+        else:
+            lst += [elem]
+    return lst
+
+    # '''
+    # # Alternate solution
+    # if not s:
+    #     return []
+    # elif type(s[0]) == list:
+    #     return flatten(s[0]) + flatten(s[1:])
+    # else:
+    #     return [s[0]] + flatten(s[1:])
+    #     '''
 
 

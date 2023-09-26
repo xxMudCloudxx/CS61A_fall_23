@@ -223,7 +223,7 @@ def minimum_mewtations(typed, source, limit):
     2
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
-    """ 'Remove this line'
+    """
     if len(typed) == 0 or len(source) == 0: # Base cases should go here, you may add more base cases as needed.
         # BEGIN
         "*** YOUR CODE HERE ***"
@@ -352,13 +352,21 @@ def fastest_words(match):
     >>> p1
     [4, 1, 6]
     """
+    global id_min_time
     player_indices = range(len(get_all_times(match)))  # contains an *index* for each player
     word_indices = range(len(get_all_words(match)))    # contains an *index* for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
-    for i in player_indices:
-        for j in word_indices
-    time(match, player_num, word_index)
+    word_time_compare = []
+    time_store = []
+    for _ in player_indices:
+        word_time_compare.append([])
+    for word_index in word_indices:
+        for p_id in player_indices:
+            time_store.append(time(match,p_id,word_index))
+        word_time_compare[time_store.index(min(time_store))].append(get_word(match,word_index))
+        time_store=[]
+    return word_time_compare
     # END PROBLEM 10
 
 
