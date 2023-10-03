@@ -75,6 +75,13 @@ def sum_digits(y):
     return sum(ls)
     "*** YOUR CODE HERE ***"
 
+def sum_digits_2(y):
+    total = 0
+    if y > 0:
+        total, y =total+ y%10, y//10
+    return total
+
+
 
 def double_eights(n):
     """Return true if n has two eights in a row.
