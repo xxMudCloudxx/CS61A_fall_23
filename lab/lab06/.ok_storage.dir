@@ -1,0 +1,5 @@
+'List Mutation-correct', (0, 66)
+'insert_items-correct', (512, 66)
+'Iterators-correct', (1024, 66)
+'count_occurrences-correct', (1536, 66)
+'repeated-correct', (2048, 66)

@@ -6,6 +6,7 @@ def filter(condition, lst):
     [2, 0]
     """
     "*** YOUR CODE HERE ***"
+    lst[:] = [x for x in lst if condition(x)]
 
 
 def deep_map_mut(func, lst):
@@ -33,6 +34,11 @@ def deep_map_mut(func, lst):
     True
     """
     "*** YOUR CODE HERE ***"
+    for i in range(len(lst)):
+        if type(lst[i]) == list:
+            deep_map_mut(func, lst[i])
+        else:
+            lst[i] = func(lst[i])
 
 
 HW_SOURCE_FILE=__file__
@@ -48,7 +54,10 @@ def max_path_sum(t):
     17
     """
     "*** YOUR CODE HERE ***"
-
+    if is_leaf(t):
+        return label(t)
+    else:
+        return max([label(t)+max_path_sum(branch) for branch in branches(t)])
 
 HW_SOURCE_FILE=__file__
 
@@ -84,9 +93,14 @@ def has_path(t, word):
     False
     """
     assert len(word) > 0, 'no path for empty word.'
-    "*** YOUR CODE HERE ***"
 
-
+    if label(t) == word[0]:
+        if len(word) == 1:
+            return True
+        for b in branches(t):
+            if has_path(b,word[1:]):
+                return True
+    return False
 
 # Tree ADT
 
