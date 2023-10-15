@@ -1,0 +1,4 @@
+'Card.__init__-correct', (0, 66)
+'Card.power-correct', (512, 66)
+'Player.__init__-correct', (1024, 66)
+'Player.draw-correct', (1536, 66)
