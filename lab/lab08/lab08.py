@@ -18,11 +18,26 @@ def duplicate_link(link, val):
     Link(1, Link(2, Link(2, Link(2, Link(2, Link(3))))))
     """
     "*** YOUR CODE HERE ***"
-    if link.rest != Link.empty:
-        if link.first == val:
-            link = Link(val, link)
-            duplicate_link(link.rest.rest, val)
+    if link.rest == Link.empty:
+        return
+    elif link.rest.rest == Link.empty and link.first != val:
+        return
+    if link.first == val:
+        link.rest = Link(val, link.rest)
+        duplicate_link(link.rest.rest, val)
+    else:
         duplicate_link(link.rest, val)
+
+
+def duplicate_link_2(link, val):
+    if link.rest == link.empty:
+        return
+    elif link.first == val:
+        reminding = link.rest
+        link.rest = Link(val, reminding)
+        duplicate_link_2(reminding, val)
+    else:
+        duplicate_link_2(link.rest, val)
 def convert_link(link,ls=[]):
     """Takes a linked list and returns a Python list with the same elements.
 
@@ -40,6 +55,36 @@ def convert_link(link,ls=[]):
         convert_link(link.rest)
         return ls
 
+def convert_link_2(link):
+    """Takes a linked list and returns a Python list with the same elements.
+
+    >>> link = Link(1, Link(2, Link(3, Link(4))))
+    >>> convert_link_2(link)
+    [1, 2, 3, 4]
+    >>> convert_link_2(Link.empty)
+    []
+    """
+    # Recursive solution
+    if link is Link.empty:
+        return []
+    return [link.first] + convert_link_2(link.rest)
+
+# Iterative solution
+def convert_link_iterative(link):
+    result = []
+    while link is not Link.empty:
+        result.append(link.first)
+        link = link.rest
+    return result
+
+# Challenge solution
+def convert_link_challenge(link):
+    if link is Link.empty:
+        return []
+    if type(link.first) == Link:
+        return [convert_link_challenge(link.first)] + convert_link_challenge(link.rest)
+    return [link.first] + convert_link_challenge(link.rest)
+
 def multiply_lnks(lst_of_lnks):
     """
     >>> a = Link(2, Link(3))
@@ -55,13 +100,24 @@ def multiply_lnks(lst_of_lnks):
     >>> p2
     Link(48, Link(12, Link(0)))
     """
+    if lst_of_lnks == [] or lst_of_lnks[0] == Link.empty:
+        return ()
     product = 1
-    for i in lst_of_lnks:
-        if i != Link.empty:
-            product *= i.first
-        lst = [i.rest]
-    lst_of_lnks_rests = [ls.rest for ls in lst if ls != Link.empty]
+    for i in range(len(lst_of_lnks)):
+        if lst_of_lnks[i] != Link.empty:
+            product *= lst_of_lnks[i].first
+        lst_of_lnks[i] = lst_of_lnks[i].rest
+    lst_of_lnks_rests = [ls for ls in lst_of_lnks]
     return Link(product, multiply_lnks(lst_of_lnks_rests))
+
+def multiply_lnks_2(lst_of_lnks):
+    product = 1
+    for lnk in lst_of_lnks:
+        if lnk is Link.empty:
+            return lnk
+        product *= lnk.first
+    lst_of_lnks_rests = [lnk.rest for lnk in lst_of_lnks]
+    return Link(product,multiply_lnks(lst_of_lnks_rests))
 
 class Link:
     """A linked list.

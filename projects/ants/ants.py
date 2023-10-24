@@ -193,12 +193,16 @@ class ThrowerAnt(Ant):
         # END Problem 3 and 4
         current_place = self.place
         num = 0
-        while not current_place.is_hive and (self.lower_bound <= num <= self.upper_bound):
+        while not current_place.is_hive:
             if not random_bee(current_place.bees):
                 current_place = current_place.entrance
                 num += 1
             else:
-                return random_bee(current_place.bees)
+                if self.lower_bound <= num <= self.upper_bound:
+                    return random_bee(current_place.bees)
+                else:
+                    current_place = current_place.entrance
+                    num += 1
         return None
 
     def throw_at(self, target):
@@ -272,6 +276,16 @@ class FireAnt(Ant):
         """
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
+        super().reduce_health(amount)
+        if not self.place.bees:
+            for i in self.place.bees[:] :
+                i.reduce_health(i, amount)
+        if self.health <= 0:
+            if not self.place.bees:
+                for i in self.place.bees[:]:
+                    i.reduce_health(i, self.damage)
+            self.death_callback()
+            self.place.remove_insect(self)
         # END Problem 5
 
 # BEGIN Problem 6

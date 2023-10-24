@@ -31,14 +31,14 @@ def remove_all(link, value):
     <0 1>
     """
     "*** YOUR CODE HERE ***"
-    if link == Link.empty:
-        return link
-    elif link.first == value:
-        link.first =link
-
+    if link == Link.empty or link.rest == Link.empty:
+        return
+    if link.rest.first == value:
+        link.rest = link.rest.rest
         remove_all(link, value)
     else:
         remove_all(link.rest, value)
+
 
 
 

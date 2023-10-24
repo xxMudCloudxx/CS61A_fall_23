@@ -109,6 +109,13 @@ def store_digits(n):
             n //= 10
         return result
 
+def store_digits_2(n):
+    result = Link.empty
+    while n > 0:
+        result = Link(n % 10, result)
+        n//10
+    return result
+
 def deep_map_mut(func, lnk):
     """Mutates a deep link lnk by replacing each item found with the
     result of calling func on the item. Does NOT create new Links (so
